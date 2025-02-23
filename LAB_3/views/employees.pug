@@ -1,0 +1,13 @@
+link(rel='stylesheet', type='text/css', href='/style.css')
+body
+h1 EMPLOYEES LIST
+  ul
+      each employee in readFile
+        div
+          li= "Name: " + employee.name
+          li= "Email: " + employee.email
+          li= "Salary: " + employee.salary
+          li= "Level: " + employee.level
+          li= "Years of Experience: " + employee.yearsOfExperience
+          br
+      

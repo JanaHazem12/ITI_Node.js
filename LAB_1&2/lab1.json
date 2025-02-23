@@ -1,0 +1,44 @@
+[
+  {
+    "name": "jana",
+    "email": "email",
+    "salary": "10000",
+    "level": "2",
+    "yearsOfExperience": "22"
+  },
+  {
+    "name": "jana",
+    "email": "email@gmail.com",
+    "salary": "22",
+    "level": "20",
+    "yearsOfExperience": ""
+  },
+  {
+    "name": "jana",
+    "email": "jana@gmail.com",
+    "salary": "123",
+    "level": "123",
+    "yearsOfExperience": "10"
+  },
+  {
+    "name": "jana",
+    "email": "jana@gmail.com",
+    "salary": 123,
+    "level": 123,
+    "yearsOfExperience": "10"
+  },
+  {
+    "name": "jana",
+    "email": "jna@gmail.com",
+    "salary": 1000,
+    "level": 1,
+    "yearsOfExperience": "10"
+  },
+  {
+    "name": "jana",
+    "email": "jana@hotmail.com",
+    "salary": 50000,
+    "level": 12,
+    "yearsOfExperience": 14
+  }
+]
