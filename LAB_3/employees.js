@@ -11,6 +11,8 @@ const Router = express.Router();
 //   res.render('index', {name: "jjjj"});
 // });
 
+
+// ******** GET WITH PUG ******** //
 Router.get('/', (req, res) => {
   let readFile = fs.readFileSync('./employeesData.json');
   readFile = JSON.parse(readFile);
@@ -20,25 +22,46 @@ Router.get('/', (req, res) => {
   });
 });
 
-// get employeeById validate in middleware ( no strings DONE, ID unavailable DONE )
-Router.get('/:id', (req, res, next) => {
+// ******** GET EMPLOYEE BY ID ********
+// Router.get('/:id', (req, res, next) => {
+//   const jsonFile = JSON.parse(fs.readFileSync('./employeesData.json'));
+//   const idisFound = jsonFile.some((jsonid) => Number(jsonid.id) === Number.parseInt(req.params.id));
+//   if (Number.isNaN(Number.parseInt(req.params.id)) || idisFound === false) {
+//     res.status(404).send('Employee id unavailable !');
+//   } else {
+//     next();
+//   }
+// }, (req, res) => {
+//   const employee = req.params.id; // to get the /:id in the API
+//   // read lab1.json and get this id
+//   const jsonFile = JSON.parse(fs.readFileSync('./employeesData.json'));
+//   const foundEmployee = jsonFile.find((emp) => {
+//     return emp.id === Number(employee);
+//   });
+//   res.json(foundEmployee);
+// });
+
+
+
+// ******** BONUS --> FILTER ********
+Router.get('/filter', (req, res) => {
+  const query = req.query;
   const jsonFile = JSON.parse(fs.readFileSync('./employeesData.json'));
-  const idisFound = jsonFile.some((jsonid) => Number(jsonid.id) === Number.parseInt(req.params.id));
-  if (Number.isNaN(Number.parseInt(req.params.id)) || idisFound === false) {
-    res.status(404).send('Employee id unavailable !');
-  } else {
-    next();
-  }
-}, (req, res) => {
-  const employee = req.params.id; // to get the /:id in the API
-  // read lab1.json and get this id
-  const jsonFile = JSON.parse(fs.readFileSync('./employeesData.json'));
-  const foundEmployee = jsonFile.find((emp) => {
-    return emp.id === Number(employee);
+  const filteredKeys = Object.keys(query);
+  const filteredValues = Object.values(query);
+  const filteredEmp = jsonFile.filter((emp) => {
+    if(filteredKeys.toString() === 'name' || filteredKeys.toString() === 'email'){
+      return emp[filteredKeys] === filteredValues.toString();
+    }
+    else if(filteredKeys.toString() === 'salary' || filteredKeys.toString() === 'level' || filteredKeys.toString() === 'yearsOfExperience'){
+      return emp[filteredKeys] === Number(filteredValues);
+    }
   });
-  res.json(foundEmployee);
+  res.send(filteredEmp);
 });
 
+
+// ******** ADD AN EMPLOYEE ********
 Router.post('/', express.json(), (req, res, next) => {
   const newEmpKeys = Object.keys(req.body);
   const newEmpValues = Object.values(req.body);
@@ -74,7 +97,7 @@ Router.post('/', express.json(), (req, res, next) => {
   res.status(200).send('Employee added successfully!');
 });
 
-// middleware --> check if the ID is available
+// ******** DELETE AN EMPLOYEE ********
 Router.delete('/:id', (req,res,next) => {
   const jsonFile = JSON.parse(fs.readFileSync('./employeesData.json'));
   const idisFound = jsonFile.some((jsonid) => Number(jsonid.id) === Number.parseInt(req.params.id));
@@ -94,7 +117,7 @@ Router.delete('/:id', (req,res,next) => {
 });
 
 
-// Routerending NOT overriding !!!!
+// ******** UPDATING A FIELD IN AN EMPLOYEE BY ID ********
 Router.patch('/:id', express.json(), (req, res, next) => {
   const updatedValue = req.body; 
   const empKeys = Object.keys(updatedValue);
